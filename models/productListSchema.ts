@@ -2,7 +2,8 @@ import mongoose, { Schema } from "mongoose";
 
 const productListSchema:Schema = new mongoose.Schema({
 user_id:{
-    type: Number, // have to change for link!!
+        type: Schema.Types.ObjectId,
+        ref: 'User',
         required: true
 },
 store_id:{

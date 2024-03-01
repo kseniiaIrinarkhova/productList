@@ -2,6 +2,7 @@
 import express, { Express, Request, Response } from "express";
 import dotenv from "dotenv";
 import mongoose from "mongoose";
+import connectDB from "./config/db.config";
 import usersRoute from '../routes/usersRoute';
 import roductsRoute from '../routes/productsRoute';
 import storesRoute from '../routes/storesRoute';
@@ -34,6 +35,19 @@ app.use((req: Request, res: Response) => {
     res.status(404).json({ errors: [{ message: "Resource Not Found" }] });
 });
 
-app.listen(port, () => {
-    console.log(`[server]: Server is running at http://localhost:${port}`);
-});
+//connecting to MongoDB and starting server
+startDB();
+
+//functions
+
+async function startDB(){
+    try {
+        await connectDB(process.env.ATLAS_URI);
+        console.log('Mongodb is connected.')
+        app.listen(port, () => {
+            console.log(`[server]: Server is running at http://localhost:${port}`);
+        })
+    } catch (err) {
+        console.log(err)
+    }
+}

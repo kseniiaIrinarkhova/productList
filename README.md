@@ -20,3 +20,4 @@ Project prepared as a part of education in **Software Engineering Bootcamp** at 
 
 # Additional Resources
 - [Easy MongoDB Mongoose Connection with TypeScript Nodejs and Express](https://thriveread.com/mongodb-mongoose-connection-with-typescript-nodejs-and-express/)
+- [Interfaces vs Types in TypeScript](https://blog.logrocket.com/types-vs-interfaces-typescript/)

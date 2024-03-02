@@ -10,9 +10,9 @@ const storeSchema = new Schema<IStore>({
         type: String,
         required:false
     },
-    workingHours:{
+    working_hours:{
         type: [{
-            weekDay:{
+            week_day:{
                 type: String,
                 enum:[
                     "Monday",

@@ -1,5 +1,4 @@
-import express, { Express, NextFunction, Request, Response, Router } from 'express';
-import User from '../models/userSchema';
+import express from 'express';
 import UserController from "../controllers/user.controllers"
 
 const router = express.Router();
@@ -20,4 +19,5 @@ router.route('/:id')
 .patch(userController.updateUser)
 //delete
 .delete(userController.deleteUser);
+
 export default router;

@@ -34,7 +34,7 @@ type DayWorkingHours = {
     /**
      * Day of week
      */
-    weekDay: WeekDay;
+    week_day: WeekDay;
     /**
      * hour when is opened
      */
@@ -60,7 +60,7 @@ interface IStore {
     /**
      * Working hours. Arrey of: week days, open hour, close hour
      */
-    workingHours: DayWorkingHours[]
+    working_hours: DayWorkingHours[]
 }
 
 /**

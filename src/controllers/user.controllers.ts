@@ -1,5 +1,5 @@
-import express, { Express, NextFunction, Request, Response, Router } from 'express';
-import User from '../models/userSchema';
+import { Request, Response} from 'express';
+import User from '../models/user.models';
 
 export default class UserController {
     //CRUD operations for User
@@ -57,7 +57,7 @@ export default class UserController {
             if (!user) {
                 throw new Error("Requested User not found!");
             }
-            //return list of object
+            //return User
             return res.status(200).send({ data: user });
         } catch (err) {
             return res.status(500).json({ message: (err as Error).message });
@@ -79,7 +79,7 @@ export default class UserController {
             if (!updatedUser) {
                 throw new Error("Requested User not found!");
             }
-            //return list of object
+            //return updated user
             return res.status(200).send({ data: updatedUser, message: "User has been updated." });
         } catch (err) {
             return res.status(500).json({ message: (err as Error).message });
@@ -95,7 +95,7 @@ export default class UserController {
             if (!deletedUser) {
                 throw new Error("Requested User not found!");
             }
-            //return list of object
+            //return information about deleted user
             return res.status(200).send({ data: deletedUser, message: "User has been deleted." });
         } catch (err) {
             return res.status(500).json({ message: (err as Error).message });

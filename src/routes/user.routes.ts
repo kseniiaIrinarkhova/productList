@@ -8,9 +8,7 @@ const userController = new UserController();
 //routes without parameters
 router.route('/')
 //read
-.get((req:Request, res:Response)=>{
-  res.send("Main users route")  
-})
+.get(userController.getUsers)
 //create
 .post(userController.createUser);
 

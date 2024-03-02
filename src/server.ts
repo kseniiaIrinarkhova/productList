@@ -7,6 +7,7 @@ import userRoutes from './routes/user.routes';
 import productRoutes from './routes/product.routes';
 import storeRoutes from './routes/stores.routes';
 import productListRoutes from './routes/productList.routes';
+import SeedController from "./controllers/seed.controllers";
 
 //configuration
 dotenv.config();
@@ -22,6 +23,8 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
 //routes
+//Seed route (uncomment to add seed data to database)
+app.get("/seed", new SeedController().addSeeds)
 
 app.get("/", (req: Request, res: Response) => {
     res.send("Product list API");

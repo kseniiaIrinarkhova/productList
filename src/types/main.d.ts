@@ -12,11 +12,11 @@ interface IUser {
     /**
      * user first name
      */
-    first_name: string;
+    first_name?: string;
     /**
      * user lest name
      */
-    last_name: string;
+    last_name?: string;
     /**
      * user email
      */

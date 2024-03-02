@@ -1,0 +1,49 @@
+ $jsonSchema: {
+    bsonType: 'object',
+    description: 'Document describing a product list',
+    required: [
+      'user_id',
+      'store_id'
+    ],
+    properties: {
+      user_id: {
+        bsonType: 'objectId',
+        description: 'User ID must _id from document in users collection and must be provided'
+      },
+      store_id: {
+        bsonType: 'objectId',
+        description: 'Store ID must _id from document in stores collection and must be provided'
+      },
+      products: {
+        bsonType: 'array',
+        description: 'List of products',
+        minItems: 0,
+        uniqueItems: true,
+        items: {
+          bsonType: 'object',
+          description: 'Document described a product in list',
+          required: [
+            'product_id',
+            'amount',
+            'price'
+          ],
+          properties: {
+            product_id: {
+              bsonType: 'objectId',
+              description: 'Product ID must _id from document in products collection and must be provided'
+            },
+            amount: {
+              bsonType: 'number',
+              description: 'Amount must be greater than 0 and provided',
+              minimum: 1
+            },
+            price: {
+              bsonType: 'number',
+              description: 'Price must be greater than 0 and provided',
+              minimum: 1
+            }
+          }
+        }
+      }
+    }
+  }

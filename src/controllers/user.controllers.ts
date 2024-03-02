@@ -12,7 +12,7 @@ export default class UserController{
            const newUser = await User.create(req.body);
            return res.status(201).json({data : newUser});
         } catch (err) {
-            res.status(500).json({message: err});
+            res.status(500).json({message: (err as Error).message});
         }
     }
 }

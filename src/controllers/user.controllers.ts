@@ -64,6 +64,12 @@ export default class UserController {
         }
     }
 
+    /**
+     * Update user data
+     * @param req Request
+     * @param res Response
+     * @returns updated user with confirmation message
+     */
     async updateUser(req: Request, res: Response){
         try {
             //get id parameter
@@ -75,6 +81,22 @@ export default class UserController {
             }
             //return list of object
             return res.status(200).send({ data: updatedUser, message: "User has been updated." });
+        } catch (err) {
+            return res.status(500).json({ message: (err as Error).message });
+        }
+    }
+
+    async deleteUser(req: Request, res: Response){
+        try {
+            //get id parameter
+            const { id } = req.params;
+            //try to get user by id and change it
+            const deletedUser = await User.findByIdAndDelete({ _id: id });
+            if (!deletedUser) {
+                throw new Error("Requested User not found!");
+            }
+            //return list of object
+            return res.status(200).send({ data: deletedUser, message: "User has been deleted." });
         } catch (err) {
             return res.status(500).json({ message: (err as Error).message });
         }

@@ -1,4 +1,5 @@
-import { IUser, IStore, IProduct, IProductList, WeekDay, DayWorkingHours } from "../types/main";  
+import { IUser, IStore, IProduct, IProductList, WeekDay, DayWorkingHours } from "../types/main";
+import { Types } from "mongoose";
 
 const users: Array<IUser> = [
     {
@@ -26,7 +27,7 @@ const users: Array<IUser> = [
     {
         username: "the_eye",
         first_name: "Sauron",
-        email: "sauron@mordor.jrrt" 
+        email: "sauron@mordor.jrrt"
     },
 ];
 
@@ -36,9 +37,9 @@ const stores: Array<IStore> = [
         address: "7725 188th Ave NE, Redmond, WA 98052",
         working_hours: [
             {
-                week_day:"Saturday" ,
+                week_day: "Saturday",
                 open: "9:30 AM",
-                close:  "6 PM"
+                close: "6 PM"
             },
             {
                 week_day: "Sunday",
@@ -75,17 +76,17 @@ const stores: Array<IStore> = [
             {
                 week_day: "Thursday",
                 open: "5 AM",
-                close: '1 AM' 
+                close: '1 AM'
             },
             {
                 week_day: "Friday",
                 open: "5 AM",
-                close: '1 AM' 
+                close: '1 AM'
             },
             {
                 week_day: "Saturday",
                 open: "5 AM",
-                close: '1 AM' 
+                close: '1 AM'
             }
         ]
     },
@@ -101,7 +102,7 @@ const stores: Array<IStore> = [
             {
                 week_day: "Tuesday",
                 open: "8 AM",
-                close: "10 PM" 
+                close: "10 PM"
             },
             {
                 week_day: "Thursday",
@@ -111,7 +112,7 @@ const stores: Array<IStore> = [
         ]
     },
     {
-        name: "Trader Joe's" ,
+        name: "Trader Joe's",
         address: "975 NW Gilman Blvd, Issaquah, WA 98027",
         working_hours: [
             {
@@ -127,15 +128,89 @@ const stores: Array<IStore> = [
             {
                 week_day: "Wednesday",
                 open: "8 AM",
-                close: "9 PM" 
+                close: "9 PM"
             },
             {
                 week_day: "Friday",
                 open: "8 AM",
-                close: "9 PM" 
+                close: "9 PM"
             }
         ]
     },
 ];
 
-export {users, stores}
+const products: Array<IProduct> = [
+    {
+        name: "Milk",
+        category: "Dairy & Eggs"
+    },
+    {
+        name: "Potato",
+        category: "Fruits & Vegetables"
+    },
+    {
+        name: "Sparkling water",
+        category: "Beverages"
+    },
+    {
+        name: "Chair",
+        category: "Garden & Patio"
+    },
+    {
+        name: "Umbrella",
+        category: "Home"
+    }
+];
+
+/**
+ * Helper function to create array of ProductList 
+ * @param userSeeds Array of IUser with _id properties from database
+ * @param storeSeeds Array of IStore with _id properties from database
+ * @param productSeeds Array of IProduct with _id properties from database
+ * @returns 
+ */
+function createProductListArray(
+    userSeeds: Array<(IUser & { _id: Types.ObjectId; })>,
+    storeSeeds: Array<(IStore & { _id: Types.ObjectId; })>,
+    productSeeds: Array<(IProduct & { _id: Types.ObjectId; })>
+): Array<IProductList> {
+    //declare resulting array
+    let productlists: Array<IProductList> = [];
+    //create 5 ernties for array
+    while (productlists.length < 5) {
+        //declare entry in productList array
+        let productlist: IProductList;
+        //find random index for userSeeds array
+        const userIndex: number = Math.floor(Math.random() * 5);
+        //find random index for storeSeeds array
+        const storeIndex: number = Math.floor(Math.random() * 5);
+        //declare array of products in list
+        const products: Array<{ product_id: Types.ObjectId, amount: number, price: number }> = []
+        //create 3 product for each list
+        for (let i = 0; i < 3; i++) {
+            //find random index for productSeeds
+            const productIndex: number = Math.floor(Math.random() * 5);
+            //create product entity
+            const product: { product_id: Types.ObjectId, amount: number, price: number } = {
+                product_id: productSeeds[productIndex]._id, //get _id for foreign key connection
+                amount: Math.floor(Math.random() * 100),
+                price: Math.floor(Math.random() * 1000)
+            }
+            //add product to products in list
+            products.push(product);
+        }
+        //create product list
+        productlist = {
+            user_id: userSeeds[userIndex]._id, //get _id for foreign key connection
+            store_id: storeSeeds[storeIndex]._id, //get _id for foreign key connection
+            products: products
+        }
+        //add product list to resulting array
+        productlists.push(productlist);
+
+    }
+    //return array
+    return productlists;
+}
+
+export { users, stores, products, createProductListArray }

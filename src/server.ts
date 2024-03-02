@@ -23,8 +23,9 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
 //routes
-//Seed route (uncomment to add seed data to database)
-app.get("/seed", new SeedController().addSeeds)
+
+// //Seed route (uncomment to add seed data to database)
+// app.get("/seed", new SeedController().addSeeds)
 
 app.get("/", (req: Request, res: Response) => {
     res.send("Product list API");

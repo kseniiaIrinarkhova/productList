@@ -1,4 +1,4 @@
-import {Types} from 'mongoose';
+import {Types, Document} from 'mongoose';
 
 //types and interfaces for main data entries
 /**
@@ -107,9 +107,9 @@ interface IProduct {
 }
 
 /**
- * Product ist interface
+ * Product list interface
  */
-type IProductList = {
+interface IProductList extends Document {
     /**
      * foreign key to User
      */
@@ -135,4 +135,42 @@ type IProductList = {
          */
         price:number}[]
 }
-export { IUser, IStore, IProduct, IProductList, WeekDay, DayWorkingHours }
+
+/**
+ * User lists interface
+ */
+interface IUserList {
+    /**
+     * User information
+     */
+    user: (IUser & {_id: Types.ObjectId});
+    /**
+     * Array of product lists
+     */
+    productlists: Array<
+    {
+            /**
+             * Store information
+             */
+            store: (IStore & { _id: Types.ObjectId } )
+            /**
+             * products list
+             */
+            products: Array<{
+                /**
+                 * product information
+                 */
+                product: (IProduct & { _id: Types.ObjectId })
+                /*
+                * amount of products
+                */
+                amount: number,
+                /**
+                 * price for 1 product
+                 */
+                price: number
+            }>
+    }>;
+}
+
+export { IUser, IStore, IProduct, IProductList, WeekDay, DayWorkingHours, IUserList }

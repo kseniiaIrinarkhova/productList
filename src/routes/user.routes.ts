@@ -20,4 +20,8 @@ router.route('/:id')
 //delete
 .delete(userController.deleteUser);
 
+//related routes
+router.route('/:id/productlists')
+//read
+.get(userController.getUserProductLists)
 export default router;

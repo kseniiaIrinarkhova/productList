@@ -1,5 +1,10 @@
 import { Request, Response} from 'express';
 import User from '../models/user.models';
+import Store from '../models/store.models';
+import Product from '../models/product.models';
+import ProductList from '../models/productList.models';
+import { IStore, IProduct, IProductList, IUserList } from '../types/main';
+import { Types } from 'mongoose';
 
 export default class UserController {
     //CRUD operations for User
@@ -86,6 +91,12 @@ export default class UserController {
         }
     }
 
+    /**
+     * Delete user data
+     * @param req 
+     * @param res 
+     * @returns result of operation
+     */
     async deleteUser(req: Request, res: Response){
         try {
             //get id parameter
@@ -97,6 +108,25 @@ export default class UserController {
             }
             //return information about deleted user
             return res.status(200).send({ data: deletedUser, message: "User has been deleted." });
+        } catch (err) {
+            return res.status(500).json({ message: (err as Error).message });
+        }
+    }
+
+    async getUserProductLists(req: Request, res: Response){
+        try {
+            //get id parameter
+            const { id } = req.params;
+            //check query parameters
+            const storeName = req.query["store"]
+            //try to get user by id
+            const user = await User.findById({ _id: id });
+            if (!user) {
+                throw new Error("Requested User not found!");
+            }
+            const usedrPList = await ProductList.findProductListByUserId(new Types.ObjectId(id));
+            //return 
+            return res.status(200).send({ data: usedrPList });
         } catch (err) {
             return res.status(500).json({ message: (err as Error).message });
         }

@@ -1,7 +1,11 @@
-import { Schema, model } from "mongoose";
+import { Schema, model, Types, Model } from "mongoose";
 import { IProductList } from "../types/main";
 
-const productListSchema = new Schema<IProductList>({
+interface IProductListModel extends Model<IProductList> {
+    findProductListByUserId(user_id: Types.ObjectId): Array<(IProductList & { _id: Types.ObjectId })>;
+}
+
+const productListSchema = new Schema({
 user_id:{
         type: Schema.Types.ObjectId,
         ref: 'User',
@@ -24,4 +28,14 @@ products:{
 }
 });
 
-export default model<IProductList>("ProductList", productListSchema);
+//To search product lists related to selected user, added index that sort bu user_id
+productListSchema.index({user_id: 1}); 
+
+//get all product lists created by user
+productListSchema.static('findProductListByUserId', function (user_id: Types.ObjectId) : Array<(IProductList & {_id: Types.ObjectId})> {
+    return this.find({user_id : user_id});
+} )
+
+const ProductList: IProductListModel =  model<IProductList, IProductListModel>("ProductList", productListSchema);
+
+export default ProductList;

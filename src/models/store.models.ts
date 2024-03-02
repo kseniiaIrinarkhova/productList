@@ -1,7 +1,11 @@
-import { Schema, model } from "mongoose";
+import { Model, Schema, Types, model } from "mongoose";
 import { IStore } from "../types/main";
 
-const storeSchema = new Schema<IStore>({
+interface IStoreModel extends Model<IStore>{
+    findByName(storeName: string):(IStore & {_id: Types.ObjectId});
+}
+
+const storeSchema = new Schema({
     name: {
         type: String,
         required: [true, "Name should not be empty!"]
@@ -38,4 +42,16 @@ const storeSchema = new Schema<IStore>({
     
 });
 
-export default model<IStore>("Store", storeSchema);
+//to find stores by name quickly, added index
+storeSchema.index({name : 1});
+
+/**
+ * Static method to get store by name (first possible)
+ */
+storeSchema.static("findByName", function (storeName: string): (IStore & { _id: Types.ObjectId }) {
+    return this.findOne({name: storeName});
+});
+
+const Store: IStoreModel =  model<IStore, IStoreModel>("Store", storeSchema);
+
+export default Store;

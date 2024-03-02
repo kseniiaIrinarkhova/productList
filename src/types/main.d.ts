@@ -48,7 +48,7 @@ type DayWorkingHours = {
 /**
  * Store interface
  */
-interface IStore {
+interface IStore extends Document {
     /**
      * Name of store
      */

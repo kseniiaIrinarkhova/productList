@@ -2,7 +2,8 @@ import { Schema, model, Types, Model } from "mongoose";
 import { IProductList } from "../types/main";
 
 interface IProductListModel extends Model<IProductList> {
-    findProductListByUserId(user_id: Types.ObjectId): Array<(IProductList & { _id: Types.ObjectId })>;
+    findByUserId(user_id: Types.ObjectId): Array<(IProductList & { _id: Types.ObjectId })>;
+    findByUserIdAndStoreId(user_id: Types.ObjectId, store_id: Types.ObjectId): Array<(IProductList & { _id: Types.ObjectId })>;
 }
 
 const productListSchema = new Schema({
@@ -32,9 +33,16 @@ products:{
 productListSchema.index({user_id: 1}); 
 
 //get all product lists created by user
-productListSchema.static('findProductListByUserId', function (user_id: Types.ObjectId) : Array<(IProductList & {_id: Types.ObjectId})> {
+productListSchema.static('findByUserId', function (user_id: Types.ObjectId) : Array<(IProductList & {_id: Types.ObjectId})> {
     return this.find({user_id : user_id});
 } )
+
+//get all product lists created by user for specific store
+productListSchema.static('findByUserIdAndStoreId', function (user_id: Types.ObjectId, store_id: Types.ObjectId): Array<(IProductList & { _id: Types.ObjectId })> {
+    console.log(user_id);
+console.log(store_id)
+    return this.find({ user_id: user_id , store_id: store_id});
+})
 
 const ProductList: IProductListModel =  model<IProductList, IProductListModel>("ProductList", productListSchema);
 

@@ -118,15 +118,31 @@ export default class UserController {
             //get id parameter
             const { id } = req.params;
             //check query parameters
-            const storeName = req.query["store"]
+            const storeName = req.query["store"] as string;
             //try to get user by id
             const user = await User.findById({ _id: id });
             if (!user) {
                 throw new Error("Requested User not found!");
             }
-            const usedrPList = await ProductList.findProductListByUserId(new Types.ObjectId(id));
+            let userProductLists: Array<(IProductList & { _id: Types.ObjectId })>;
+            if(storeName){
+                const store = await Store.findByName(storeName);
+                console.log(store)
+                if(!store){
+                    throw new Error("Requested Store not found!");
+                }
+                userProductLists = await ProductList.findByUserIdAndStoreId(new Types.ObjectId(id), store._id);
+            }
+            else{
+                userProductLists = await ProductList.findByUserId(new Types.ObjectId(id));
+            }
+            
+            if (!userProductLists) {
+                return res.status(200).send({ data: { user: user, msg: "User did not create product list."} });
+            }
+
             //return 
-            return res.status(200).send({ data: usedrPList });
+            return res.status(200).send({ data: userProductLists });
         } catch (err) {
             return res.status(500).json({ message: (err as Error).message });
         }

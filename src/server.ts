@@ -6,7 +6,7 @@ import connectDB from "./config/db.config";
 import userRoutes from './routes/user.routes';
 import productRoutes from './routes/product.routes';
 import storeRoutes from './routes/stores.routes';
-import productListsRoute from './routes/productListsRoute';
+import productListRoutes from './routes/productList.routes';
 
 //configuration
 dotenv.config();
@@ -30,7 +30,7 @@ app.get("/", (req: Request, res: Response) => {
 app.use('/api/users', userRoutes );
 app.use('/api/products', productRoutes);
 app.use('/api/stores', storeRoutes);
-app.use('/api/productlists', productListsRoute);
+app.use('/api/productlists', productListRoutes);
 
 //error handling
 app.use((req: Request, res: Response) => {

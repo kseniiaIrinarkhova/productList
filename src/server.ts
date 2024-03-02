@@ -4,7 +4,7 @@ import dotenv from "dotenv";
 import mongoose from "mongoose";
 import connectDB from "./config/db.config";
 import userRoutes from './routes/user.routes';
-import roductsRoute from './routes/productsRoute';
+import productRoutes from './routes/product.routes';
 import storeRoutes from './routes/stores.routes';
 import productListsRoute from './routes/productListsRoute';
 
@@ -28,7 +28,7 @@ app.get("/", (req: Request, res: Response) => {
 });
 
 app.use('/api/users', userRoutes );
-app.use('/api/products', roductsRoute);
+app.use('/api/products', productRoutes);
 app.use('/api/stores', storeRoutes);
 app.use('/api/productlists', productListsRoute);
 

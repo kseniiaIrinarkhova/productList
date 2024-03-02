@@ -3,7 +3,7 @@ import express, { Express, Request, Response } from "express";
 import dotenv from "dotenv";
 import mongoose from "mongoose";
 import connectDB from "./config/db.config";
-import usersRoute from './routes/usersRoute';
+import usersRoute from './routes/user.routes';
 import roductsRoute from './routes/productsRoute';
 import storesRoute from './routes/storesRoute';
 import productListsRoute from './routes/productListsRoute';
@@ -18,6 +18,8 @@ const connectionString: string = process.env.ATLAS_URI || "";
 mongoose.connect(connectionString);
 
 //middleware
+app.use(express.json());
+app.use(express.urlencoded({ extended: false }));
 
 //routes
 

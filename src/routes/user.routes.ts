@@ -1,7 +1,9 @@
 import express, { Express, NextFunction, Request, Response, Router } from 'express';
 import User from '../models/userSchema';
+import UserController from "../controllers/user.controllers"
 
 const router = express.Router();
+const userController = new UserController();
 
 //routes without parameters
 router.route('/')
@@ -10,7 +12,7 @@ router.route('/')
   res.send("Main users route")  
 })
 //create
-.post();
+.post(userController.createUser);
 
 //routes with parameters
 router.route('/:id')

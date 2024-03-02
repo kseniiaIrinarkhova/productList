@@ -1,6 +1,7 @@
-import mongoose, { Schema } from "mongoose";
+import { Schema, model } from "mongoose";
+import { IStore } from "../types/main";
 
-const storeSchema: Schema = new mongoose.Schema({
+const storeSchema = new Schema<IStore>({
     name: {
         type: String,
         required: true
@@ -37,4 +38,4 @@ const storeSchema: Schema = new mongoose.Schema({
     
 });
 
-export default mongoose.model("Store", storeSchema);
+export default model<IStore>("Store", storeSchema);

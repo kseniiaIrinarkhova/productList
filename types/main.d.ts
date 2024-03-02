@@ -60,7 +60,7 @@ interface IStore {
     /**
      * Working hours. Arrey of: week days, open hour, close hour
      */
-    workHours: DayWorkingHours[]
+    workingHours: DayWorkingHours[]
 }
 
 /**

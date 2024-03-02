@@ -1,6 +1,7 @@
-import mongoose, { Schema } from "mongoose";
+import { Schema, model } from "mongoose";
+import { IProductList } from "../types/main";
 
-const productListSchema:Schema = new mongoose.Schema({
+const productListSchema = new Schema<IProductList>({
 user_id:{
         type: Schema.Types.ObjectId,
         ref: 'User',
@@ -23,4 +24,4 @@ products:{
 }
 });
 
-export default mongoose.model("ProductList", productListSchema);
+export default model<IProductList>("ProductList", productListSchema);

@@ -15,11 +15,9 @@ router.route('/')
 //routes with parameters
 router.route('/:id')
 //read
-.get()
-//create
-.post()
+.get(userController.getSingleUser)
 //update
-.patch()
+.patch(userController.updateUser)
 //delete
 .delete();
 export default router;

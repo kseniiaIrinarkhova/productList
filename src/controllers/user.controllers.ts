@@ -1,7 +1,7 @@
 import express, { Express, NextFunction, Request, Response, Router } from 'express';
-import  User  from '../models/userSchema';
+import User from '../models/userSchema';
 
-export default class UserController{
+export default class UserController {
     //CRUD operations for User
     /**
      * Create User in database
@@ -9,20 +9,20 @@ export default class UserController{
      * @param res Response
      * @returns user object
      */
-    async createUser(req:Request, res:Response){
+    async createUser(req: Request, res: Response) {
         try {
             //get required properties from request body
-           const{username, email} = req.body;
-           //check if they exsist
-           if(!username || !email){
-            throw new Error("Username and Email must be provided.")
-           }
-           //try to create user
-           const newUser = await User.create(req.body);
-           //retern created entity
-           return res.status(201).json({data : newUser});
+            const { username, email } = req.body;
+            //check if they exsist
+            if (!username || !email) {
+                throw new Error("Username and Email must be provided.")
+            }
+            //try to create user
+            const newUser = await User.create(req.body);
+            //retern created entity
+            return res.status(201).json({ data: newUser, message: "User has beed created." });
         } catch (err) {
-            return res.status(500).json({message: (err as Error).message});
+            return res.status(500).json({ message: (err as Error).message });
         }
     }
 
@@ -32,16 +32,53 @@ export default class UserController{
      * @param res Response
      * @returns list of user objects
      */
-    async getUsers(req: Request, res: Response){
+    async getUsers(req: Request, res: Response) {
         try {
             //get all users from database
             const result = await User.find({});
             //return list of object
-            return res.status(200).send({data: result});
+            return res.status(200).send({ data: result });
         } catch (err) {
             return res.status(500).json({ message: (err as Error).message });
         }
     }
-    
+    /**
+     * Get single user by Id
+     * @param req Request
+     * @param res Response
+     * @returns user object
+     */
+    async getSingleUser(req: Request, res: Response) {
+        try {
+            //get id parameter
+            const { id } = req.params;
+            //try to get user by id
+            const user = await User.findById({ _id: id });
+            if (!user) {
+                throw new Error("Requested User not found!");
+            }
+            //return list of object
+            return res.status(200).send({ data: user });
+        } catch (err) {
+            return res.status(500).json({ message: (err as Error).message });
+        }
+    }
+
+    async updateUser(req: Request, res: Response){
+        try {
+            //get id parameter
+            const { id } = req.params;
+            //try to get user by id and change it
+            const updatedUser = await User.findByIdAndUpdate({ _id: id },req.body, {new:true});
+            if (!updatedUser) {
+                throw new Error("Requested User not found!");
+            }
+            //return list of object
+            return res.status(200).send({ data: updatedUser, message: "User has been updated." });
+        } catch (err) {
+            return res.status(500).json({ message: (err as Error).message });
+        }
+    }
+
 }
 

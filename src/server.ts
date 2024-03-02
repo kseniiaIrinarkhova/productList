@@ -3,10 +3,10 @@ import express, { Express, Request, Response } from "express";
 import dotenv from "dotenv";
 import mongoose from "mongoose";
 import connectDB from "./config/db.config";
-import usersRoute from '../routes/usersRoute';
-import roductsRoute from '../routes/productsRoute';
-import storesRoute from '../routes/storesRoute';
-import productListsRoute from '../routes/productListsRoute';
+import usersRoute from './routes/usersRoute';
+import roductsRoute from './routes/productsRoute';
+import storesRoute from './routes/storesRoute';
+import productListsRoute from './routes/productListsRoute';
 
 //configuration
 dotenv.config();

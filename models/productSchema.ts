@@ -4,7 +4,7 @@ import { IProduct } from "../types/main";
 const productSchema = new Schema<IProduct>({
 name:{
     type: String,
-    required: true
+        required: [true, "Name should not be empty!"]
 },
 category:{
     type: String,
@@ -37,7 +37,7 @@ category:{
         "Pet Supplies",
         "Furniture"
     ],
-    required: true
+    required: [true, "Category should not be empty!"]
 }
 });
 

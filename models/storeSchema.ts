@@ -4,7 +4,7 @@ import { IStore } from "../types/main";
 const storeSchema = new Schema<IStore>({
     name: {
         type: String,
-        required: true
+        required: [true, "Name should not be empty!"]
     },
     address:{
         type: String,
@@ -23,15 +23,15 @@ const storeSchema = new Schema<IStore>({
                     "Saturday",
                     "Sunday"
                 ],
-                required: true
+                required: [true, "Weekday should not be empty!"]
             },
             open :{
                 type: String,  //Have to add validation for time regex!!!
-                required: true 
+                required: [true, "Open should not be empty!"]
             },
             close :{
                 type: String,  //Have to add validation for time regex!!!
-                required: true 
+                required: [true, "Close should not be empty!"]
             }
         }]
     }

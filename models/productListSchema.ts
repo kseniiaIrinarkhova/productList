@@ -5,12 +5,12 @@ const productListSchema = new Schema<IProductList>({
 user_id:{
         type: Schema.Types.ObjectId,
         ref: 'User',
-        required: true
+        required: [true, "User_id should not be empty!"]
 },
 store_id:{
     type: Schema.Types.ObjectId,
     ref: 'Store',
-    required: true
+    required: [true, "Store_id should not be empty!"]
 },
 products:{
     type : [{

@@ -1,9 +1,9 @@
-import { Request, Response} from 'express';
+import { Request, Response } from 'express';
 import User from '../models/user.models';
 import Store from '../models/store.models';
 import Product from '../models/product.models';
 import ProductList from '../models/productList.models';
-import { IStore, IProduct, IProductList, IUserList } from '../types/main';
+import { IStore, IProduct, IProductList, IUserList, ProductInfo, StoreList } from '../types/main';
 import { Types } from 'mongoose';
 
 export default class UserController {
@@ -75,12 +75,12 @@ export default class UserController {
      * @param res Response
      * @returns updated user with confirmation message
      */
-    async updateUser(req: Request, res: Response){
+    async updateUser(req: Request, res: Response) {
         try {
             //get id parameter
             const { id } = req.params;
             //try to get user by id and change it
-            const updatedUser = await User.findByIdAndUpdate({ _id: id },req.body, {new:true});
+            const updatedUser = await User.findByIdAndUpdate({ _id: id }, req.body, { new: true });
             if (!updatedUser) {
                 throw new Error("Requested User not found!");
             }
@@ -97,7 +97,7 @@ export default class UserController {
      * @param res 
      * @returns result of operation
      */
-    async deleteUser(req: Request, res: Response){
+    async deleteUser(req: Request, res: Response) {
         try {
             //get id parameter
             const { id } = req.params;
@@ -113,7 +113,7 @@ export default class UserController {
         }
     }
 
-    async getUserProductLists(req: Request, res: Response){
+    async getUserProductLists(req: Request, res: Response) {
         try {
             //get id parameter
             const { id } = req.params;
@@ -121,28 +121,62 @@ export default class UserController {
             const storeName = req.query["store"] as string;
             //try to get user by id
             const user = await User.findById({ _id: id });
+            //do not find user
             if (!user) {
                 throw new Error("Requested User not found!");
             }
+            let userLists: IUserList = { user: user };
             let userProductLists: Array<(IProductList & { _id: Types.ObjectId })>;
-            if(storeName){
+            //get all lists or only filtered by store name
+            if (storeName) {
+                //try to find store
                 const store = await Store.findByName(storeName);
-                console.log(store)
-                if(!store){
+                //wrong store name
+                if (!store) {
                     throw new Error("Requested Store not found!");
                 }
+                //get all lists that user reate for store with specific name
                 userProductLists = await ProductList.findByUserIdAndStoreId(new Types.ObjectId(id), store._id);
             }
-            else{
+            else {
+                //get all lists that created by user
                 userProductLists = await ProductList.findByUserId(new Types.ObjectId(id));
             }
-            
+
             if (!userProductLists) {
-                return res.status(200).send({ data: { user: user, msg: "User did not create product list."} });
+                return res.status(200).send({ data: { user: user, msg: "User did not create product list." } });
+            }
+            //If user has product list
+
+            let productList: StoreList = {};
+            //find full information about store and products
+            for (const list of userProductLists) {
+                //get store information
+                productList.store = await Store.findById(list.store_id);
+                //if there are products in list
+                if (list.products) {
+                    //get information about every product
+                    list.products.forEach(async (p) => {
+                        //create a new ProductIlfo ibject
+                        const product: ProductInfo = {
+                            product: await Product.findById(p.product_id) as (IProduct & { _id: Types.ObjectId }), //get full product info
+                            amount: p.amount,
+                            price: p.price
+                        }
+                        //check if it's first product in list - initialize list
+                        if (!productList.products) productList.products = [];
+                        //add product info
+                        productList.products.push(product);
+                    });
+                }
+                //check if 1st user list - initialize productlists property
+                if (!userLists.productlists) userLists.productlists = [];
+                //add  product list
+                userLists.productlists.push(productList);
             }
 
-            //return 
-            return res.status(200).send({ data: userProductLists });
+            //return all data about user lists
+            return res.status(200).send({ data: userLists });
         } catch (err) {
             return res.status(500).json({ message: (err as Error).message });
         }

@@ -39,8 +39,6 @@ productListSchema.static('findByUserId', function (user_id: Types.ObjectId) : Ar
 
 //get all product lists created by user for specific store
 productListSchema.static('findByUserIdAndStoreId', function (user_id: Types.ObjectId, store_id: Types.ObjectId): Array<(IProductList & { _id: Types.ObjectId })> {
-    console.log(user_id);
-console.log(store_id)
     return this.find({ user_id: user_id , store_id: store_id});
 })
 

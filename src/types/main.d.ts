@@ -1,4 +1,4 @@
-import {Types, Document} from 'mongoose';
+import { Types, Document } from 'mongoose';
 
 //types and interfaces for main data entries
 /**
@@ -125,15 +125,48 @@ interface IProductList extends Document {
         /**
          * foreign key to Product
          */
-        product_id: Types.ObjectId, 
+        product_id: Types.ObjectId,
         /**
          * amount of products
          */
-        amount: number, 
+        amount: number,
         /**
          * price for 1 product
          */
-        price:number}[]
+        price: number
+    }[]
+}
+
+/**
+ * type for product information inside the user product lists
+ */
+type ProductInfo = {
+    /**
+    * product information
+    */
+    product: (IProduct & { _id: Types.ObjectId }) | null
+    /*
+    * amount of products
+    */
+    amount: number,
+    /**
+     * price for 1 product
+     */
+    price: number
+}
+
+/**
+ * type for store and products information in user lists
+ */
+type StoreList = {
+    /**
+     * Store information
+     */
+    store?: (IStore & { _id: Types.ObjectId }) | null
+    /**
+     * products list
+     */
+    products?: Array<ProductInfo>
 }
 
 /**
@@ -143,34 +176,11 @@ interface IUserList {
     /**
      * User information
      */
-    user: (IUser & {_id: Types.ObjectId});
+    user: (IUser & { _id: Types.ObjectId });
     /**
      * Array of product lists
      */
-    productlists: Array<
-    {
-            /**
-             * Store information
-             */
-            store: (IStore & { _id: Types.ObjectId } )
-            /**
-             * products list
-             */
-            products: Array<{
-                /**
-                 * product information
-                 */
-                product: (IProduct & { _id: Types.ObjectId })
-                /*
-                * amount of products
-                */
-                amount: number,
-                /**
-                 * price for 1 product
-                 */
-                price: number
-            }>
-    }>;
+    productlists?: Array< StoreList >;
 }
 
-export { IUser, IStore, IProduct, IProductList, WeekDay, DayWorkingHours, IUserList }
+export { IUser, IStore, IProduct, IProductList, WeekDay, DayWorkingHours, IUserList, ProductInfo, StoreList }

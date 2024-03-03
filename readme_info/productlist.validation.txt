@@ -47,3 +47,16 @@
       }
     }
   }
+
+
+example template that do not path validation:
+{
+  "user_id"  : "< _id from any document from users collection>",
+  "store_id" : "< _id from any document from stores collection>",
+  "products" : [
+    {
+      "product_id" : "< _id from any document from products collection>",
+      "amount      : <any number>
+    }
+  ]
+}

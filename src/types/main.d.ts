@@ -64,7 +64,7 @@ interface IStore extends Document {
 }
 
 /**
- * Store interface
+ * Store type (we need it to create seeds)
  */
 type TStore = {
     /**
@@ -156,7 +156,7 @@ interface IProductList extends Document {
 }
 
 /**
- * Product list interface
+ * Product list type (we need it to create seeds)
  */
 type TProductList = {
     /**

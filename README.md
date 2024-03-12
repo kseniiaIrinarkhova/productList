@@ -42,6 +42,8 @@ Main types and interfaces that used in project located in `src/types/main.d.ts` 
 - **IProductList** - represents product list that user could create
 - **IUserList** - represents detailed information about all lists that user has
 #### Types
+- **TStore** - represents store that user could visit( we need it to create seed data)
+- **TProductList** - represents product list that user could create ( we need it to create seed data)
 - **WeekDay** - literal type for week days
 - **DayWorkingHours** - represents store working hours in certain week day
 - **Category** - literal type of product categories

@@ -64,6 +64,24 @@ interface IStore extends Document {
 }
 
 /**
+ * Store interface
+ */
+type TStore = {
+    /**
+     * Name of store
+     */
+    name: string;
+    /**
+     * Store address
+     */
+    address: string;
+    /**
+     * Working hours. Arrey of: week days, open hour, close hour
+     */
+    working_hours: DayWorkingHours[]
+}
+
+/**
  * Category String Literal Type 
  */
 type Category =
@@ -138,6 +156,37 @@ interface IProductList extends Document {
 }
 
 /**
+ * Product list interface
+ */
+type TProductList = {
+    /**
+     * foreign key to User
+     */
+    user_id: Types.ObjectId;
+    /**
+     * foreign key to Store
+     */
+    store_id: Types.ObjectId;
+    /**
+     * Array of products. 
+     * */
+    products: {
+        /**
+         * foreign key to Product
+         */
+        product_id: Types.ObjectId,
+        /**
+         * amount of products
+         */
+        amount: number,
+        /**
+         * price for 1 product
+         */
+        price: number
+    }[]
+}
+
+/**
  * type for product information inside the user product lists
  */
 type ProductInfo = {
@@ -183,4 +232,4 @@ interface IUserList {
     productlists?: Array< StoreList >;
 }
 
-export { IUser, IStore, IProduct, IProductList, WeekDay, DayWorkingHours, IUserList, ProductInfo, StoreList }
+export { IUser, IStore, IProduct, IProductList, WeekDay, DayWorkingHours, IUserList, ProductInfo, StoreList, TStore, TProductList }

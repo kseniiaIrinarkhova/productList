@@ -1,4 +1,4 @@
-import { IUser, IStore, IProduct, IProductList, WeekDay, DayWorkingHours } from "../types/main";
+import { IUser, TStore, IProduct, TProductList, WeekDay, DayWorkingHours } from "../types/main";
 import { Types } from "mongoose";
 
 const users: Array<IUser> = [
@@ -31,7 +31,7 @@ const users: Array<IUser> = [
     },
 ];
 
-const stores: Array<IStore> = [
+const stores: Array<TStore> = [
     {
         name: "Costco",
         address: "7725 188th Ave NE, Redmond, WA 98052",
@@ -171,15 +171,15 @@ const products: Array<IProduct> = [
  */
 function createProductListArray(
     userSeeds: Array<(IUser & { _id: Types.ObjectId; })>,
-    storeSeeds: Array<(IStore & { _id: Types.ObjectId; })>,
+    storeSeeds: Array<(TStore & { _id: Types.ObjectId; })>,
     productSeeds: Array<(IProduct & { _id: Types.ObjectId; })>
-): Array<IProductList> {
+): Array<TProductList> {
     //declare resulting array
-    let productlists: Array<IProductList> = [];
+    let productlists: Array<TProductList> = [];
     //create 5 ernties for array
     while (productlists.length < 5) {
         //declare entry in productList array
-        let productlist: IProductList;
+        let productlist: TProductList;
         //find random index for userSeeds array
         const userIndex: number = Math.floor(Math.random() * 5);
         //find random index for storeSeeds array

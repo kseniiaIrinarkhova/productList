@@ -49,7 +49,7 @@ Main types and interfaces that used in project located in `src/types/main.d.ts` 
 - **StoreList** - detailed information about user list 
 
 ## Installation
-1. Clone repository. run `npm instull` to get all dependencies
+1. Clone repository. run `npm install` to get all dependencies
 2. Create .env file according to .env.example structure. Add connection string to MongoDB database with your username/password. It is possible to create a free account in [MongoDB ](https://www.mongodb.com/) using **Try Free** option
 3. Uncomment 27-28 lines in `server.ts` file to be abble to add test data to database
 4. To run dev scripts use command `npm run dev`
